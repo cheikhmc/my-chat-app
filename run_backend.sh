@@ -3,8 +3,6 @@
 # Ensure the script stops if there's an error
 set -e
 
-# Navigate to the back directory
-cd back
 
 # Create a virtual environment if it doesn't exist
 if [ ! -d "venv" ]; then
@@ -22,7 +20,8 @@ else
   echo "Unsupported OS: $OSTYPE"
   exit 1
 fi
-
+# Navigate to the back directory
+cd back
 # Install dependencies
 pip install -r requirements.txt
 

@@ -62,6 +62,7 @@ cd my-chat-app
 - Run the front-end script:
 
 ```bash
+chmod -x run_frontend.sh
 ./run_frontend.sh
 ```
 ##### On Windows
@@ -85,6 +86,7 @@ cd my-chat-app
 - Run the front-end script:
 
 ```bash
+chmod -x run_frontend.sh
 ./run_backend.sh
 ```
 ##### On Windows
