@@ -1,6 +1,6 @@
 # My Chat App
 
-This project contains a chat application with a front-end built using React and a back-end built using FastAPI. The application is designed to provide a user-friendly chat interface where users can interact with a bot named "SizeBot." The back-end is optimized to handle multiple concurrent requests and includes a comprehensive test suite to ensure functionality and performance.
+This project contains a chat application with a front-end built using React and a back-end built using FastAPI. The application is designed to provide a user-friendly chat interface where users can interact with a bot named "SizeBot" The back-end is optimized to handle multiple concurrent requests and includes a comprehensive test suite to ensure functionality and performance. The front-end leverages the `@chatscope/chat-ui-kit-react` library for a sleek and responsive UI, chosen for its popularity, ease of use, active development, and performance. FastAPI was selected for the back-end due to its high performance, modern features, ease of use, and strong community support.
 
 ## Table of Contents
 1. [Project Structure](#project-structure)
