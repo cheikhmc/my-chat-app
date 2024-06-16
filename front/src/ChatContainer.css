@@ -1,0 +1,89 @@
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  height: 500px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.chat-container.minimized {
+  transform: translateY(80%);
+  opacity: 0.8;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #6200ea;
+  color: white;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.chat-header-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.chat-clear-button,
+.chat-minimize-button,
+.chat-close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Aesthetic styles for chat-clear-button */
+.chat-clear-button {
+  background-color: #ff4081;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.chat-clear-button:hover {
+  background-color: #e91e63;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.chat-clear-button:focus {
+  outline: none;
+}
+
+.chat-clear-button:active {
+  transform: scale(0.95);
+}
+
+.chat-minimize-button:hover,
+.chat-close-button:hover {
+  color: #ddd;
+}
+
+.chat-minimize-button:focus,
+.chat-close-button:focus {
+  outline: none;
+}
+
+.chat-minimize-button:active,
+.chat-close-button:active {
+  transform: scale(0.95);
+}

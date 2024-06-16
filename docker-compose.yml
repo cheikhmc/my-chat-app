@@ -1,0 +1,15 @@
+services:
+  frontend:
+    build:
+      context: ./front
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./back
+    ports:
+      - "8000:8000"
+    command: ["gunicorn", "-c", "gunicorn.conf.py", "app.main:app"]
