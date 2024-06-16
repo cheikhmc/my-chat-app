@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ChatButton from './ChatButton';
 import CustomChatContainer from './ChatContainer';
-import './App.css';
+import './styles/App.css';
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);

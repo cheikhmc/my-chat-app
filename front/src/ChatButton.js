@@ -1,5 +1,5 @@
 import React from 'react';
-import './ChatButton.css';
+import './styles/ChatButton.css';
 
 function ChatButton({ onClick }) {
   return (

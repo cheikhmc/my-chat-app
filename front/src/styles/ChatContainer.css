@@ -2,8 +2,8 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 400px;
-  height: 500px;
+  width: 320px;
+  height: 400px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -11,6 +11,7 @@
   flex-direction: column;
   overflow: hidden;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 1000;
 }
 
 .chat-container.minimized {
@@ -29,9 +30,10 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.chat-header-title {
-  font-size: 20px;
-  font-weight: bold;
+.chat-logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 }
 
 .chat-header-buttons {
@@ -51,7 +53,6 @@
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Aesthetic styles for chat-clear-button */
 .chat-clear-button {
   background-color: #ff4081;
   color: white;
