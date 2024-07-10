@@ -1,5 +1,5 @@
-fastapi
-uvicorn
-gunicorn
-pytest
-locust
+fastapi==0.111.0
+uvicorn==0.30.1
+gunicorn==22.0.0
+pytest==8.2.2
+locust==2.29.1

@@ -2,9 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import router
 
-app = FastAPI()
+app = FastAPI(
+    title="Chatbot WebSocket API",
+    description="A WebSocket-based FastAPI application for a static chatbot. This API handles chat interactions with a bot and ensures proper message alternation between user and agent.",
+    version="1.0.0",
+)
 
-# Set up CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MainContainer,
   ChatContainer,
@@ -7,26 +7,57 @@ import {
   MessageInput,
 } from '@chatscope/chat-ui-kit-react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
-import axios from 'axios';
 import './styles/ChatContainer.css';
 
 function CustomChatContainer({ onClose, onMinimize }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [socket, setSocket] = useState(null);
 
-  const sendMessage = async (messageText) => {
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8000/api/ws/chat');
+    setSocket(ws);
+
+    ws.onopen = () => {
+      console.log('WebSocket connection established');
+    };
+
+    ws.onmessage = (event) => {
+      const response = JSON.parse(event.data);
+      if (response.message) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { sender: 'agent', text: response.message },
+        ]);
+      } else if (response.error) {
+        console.error('Error from server:', response.error);
+      }
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
+  const sendMessage = (messageText) => {
     const newMessages = [...messages, { sender: 'user', text: messageText }];
-    try {
-      const response = await axios.post('http://localhost:8000/api/chat', {
-        history: newMessages,
-      });
-      setMessages([
-        ...newMessages,
-        { sender: 'agent', text: response.data.message },
-      ]);
-      setInput('');
-    } catch (error) {
-      console.error(error);
+    setMessages(newMessages);
+    setInput('');
+
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(
+        JSON.stringify({
+          history: newMessages,
+        })
+      );
     }
   };
 
