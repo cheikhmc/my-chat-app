@@ -8,12 +8,11 @@ router = APIRouter()
 
 logger = logging.getLogger("uvicorn.error")
 
-
 @router.websocket("/ws/chat")
 async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    logger.info("WebSocket connection accepted")
     try:
-        await websocket.accept()
-        logger.info("WebSocket connection accepted")
         while True:
             try:
                 data = await websocket.receive_json()
@@ -21,7 +20,6 @@ async def websocket_endpoint(websocket: WebSocket):
                 try:
                     history = ChatHistory(**data)
                 except ValidationError as e:
-                    # Extract the first error message and remove the "Value error, " prefix
                     error_message = e.errors()[0]["msg"].replace("Value error, ", "")
                     await websocket.send_json({"error": error_message})
                     continue

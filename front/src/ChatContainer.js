@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MainContainer,
   ChatContainer,
@@ -12,17 +12,21 @@ import './styles/ChatContainer.css';
 function CustomChatContainer({ onClose, onMinimize }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [socket, setSocket] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const socketRef = useRef(null);
+  const maxRetries = 5;
+  let retries = 0;
 
-  useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8000/api/ws/chat');
-    setSocket(ws);
+  const connectWebSocket = () => {
+    socketRef.current = new WebSocket('ws://localhost:8000/api/ws/chat');
 
-    ws.onopen = () => {
+    socketRef.current.onopen = () => {
       console.log('WebSocket connection established');
+      setIsConnected(true);
+      retries = 0;
     };
 
-    ws.onmessage = (event) => {
+    socketRef.current.onmessage = (event) => {
       const response = JSON.parse(event.data);
       if (response.message) {
         setMessages((prevMessages) => [
@@ -34,16 +38,30 @@ function CustomChatContainer({ onClose, onMinimize }) {
       }
     };
 
-    ws.onclose = () => {
+    socketRef.current.onclose = () => {
       console.log('WebSocket connection closed');
+      setIsConnected(false);
+      if (retries < maxRetries) {
+        setTimeout(() => {
+          retries += 1;
+          connectWebSocket();
+        }, 1000 * retries); // Exponential backoff
+      }
     };
 
-    ws.onerror = (error) => {
+    socketRef.current.onerror = (error) => {
       console.error('WebSocket error:', error);
+      socketRef.current.close();
     };
+  };
+
+  useEffect(() => {
+    connectWebSocket();
 
     return () => {
-      ws.close();
+      if (socketRef.current) {
+        socketRef.current.close();
+      }
     };
   }, []);
 
@@ -52,8 +70,8 @@ function CustomChatContainer({ onClose, onMinimize }) {
     setMessages(newMessages);
     setInput('');
 
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(
         JSON.stringify({
           history: newMessages,
         })
@@ -105,6 +123,11 @@ function CustomChatContainer({ onClose, onMinimize }) {
           />
         </ChatContainer>
       </MainContainer>
+      {!isConnected && (
+        <div className="connection-status">
+          Connection lost. Trying to reconnect...
+        </div>
+      )}
     </div>
   );
 }
